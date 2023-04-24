@@ -37,8 +37,8 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/loginSubmit", (req, res) => {
-  const username = req.query.email;
-  const password = req.query.password;
+   username = req.query.email;
+   password = req.query.password;
   db.collection("users")
     .where("username", "==", username)
     .where("password", "==", password)
@@ -102,6 +102,36 @@ app.get("/musicSubmit", (req, res) => {
   const m = req.query.music;
   var link = "https://www.youtube.com/results?search_query=" + m;
   res.render("music", { link: link });
+  db.collection("searches").add({
+    email: username,
+    search: m,
+    searchLink: link,
+  });
+});
+
+app.get("/recent", (req, res) => {
+  db.collection("searches")
+    .where("email", "==", username)
+    .get()
+    .then((docs) => {
+      if (docs.size > 0) {
+        var searchData = [];
+        db.collection("searches")
+          .get()
+          .then((docs) => {
+            docs.forEach((doc) => {
+              searchData.push(doc.data());
+            });
+          })
+          .then(() => {
+            res.render("recent", {SearchData: searchData });
+          });
+      } else {
+        res.send(
+          '<center><h1 style="padding-top: 50px; ">NO RECENTS</h1><br></center>'
+        );
+      }
+    });
 });
 
 const PORT = process.env.PORT || 10000;
