@@ -58,7 +58,7 @@ app.get("/loginSubmit", (req, res) => {
           });
       } else {
         res.send(
-          '<center><h1 style="padding-top: 50px;">LOGIN FAILED</h1> <h1>Enter correct credentials</h1><br><h2>OR</h2><br><h1>If not registered </h1><a href = "https://cherry-glistening-car.glitch.me/signup.html"><h2>Register Here</h2></a></center>'
+          '<center><h1 style="padding-top: 50px;">LOGIN FAILED</h1> <h1>Enter correct credentials</h1><br><h2>OR</h2><br><h1>If not registered </h1><a href = "/signup"><h2>Register Here</h2></a></center>'
         );
       }
     });
